@@ -5,7 +5,29 @@ Once deployed, the sample will automatically trigger a re-import of your data an
 
 ## Deployment
 
-To deploy this sample, you first need to configure a [Personalize model](https://eu-west-1.console.aws.amazon.com/personalize/home?region=eu-west-1). After you have created this, update the required parameters in the [parameters.cfg](parameters.cfg) file before running `make` to deploy the template into your AWS console.
+The pipeline deployed via the templates provided here **does not** setting up include the model in [Amazon Personalize](https://docs.aws.amazon.com/personalize/latest/dg/setup.html), but relies on an already predeployed model. In the following, we'll list the required steps to be able to deploy this template and its prerequisites.
+
+### Prerequisites
+
+These prerequisites are required before setting this pipeline up:
+
+ - You need to have a set up of [Amazon Personalize](https://docs.aws.amazon.com/personalize/latest/dg/setup.html), for later steps you will need ARNs of
+   - A role that is able to import the datasets
+   - Amazon S3 paths of the datasets
+   - ARNs of solution and/or campaigns to be updated via this pipeline
+ - The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) installed
+ - [Make](https://www.gnu.org/software/make/) installed: If you don't have make, you might work around this by executing the commands in the [Makefile](https://github.com/aws-samples/amazon-personalize-automated-retraining/blob/master/Makefile) using a script
+ - An Amazon S3 bucket for deploying these scripts as part of the Makefile
+ 
+### Deploying the retraining pipeline
+
+Once you have done the steps listed in the [Prerequisites](#Prerequisites), you need to:
+
+1. Fill in the S3 bucket you created for housing the deployment files, as well as the AWS Region to the first lines of the [Makefile](https://github.com/aws-samples/amazon-personalize-automated-retraining/blob/master/Makefile#L3-L4).
+2. Update the required parameters (e.g., ARNs from the datasets, retraining rate,...) in the [parameters.cfg](parameters.cfg). You'll find a list of all parameters and their description below.
+3. (Optional): You might want to adjust the (currently fixed) `--stack-name` from the [Makefile](https://github.com/aws-samples/amazon-personalize-automated-retraining/blob/master/Makefile#L14) in case you want to deploy multiple pipelines.
+
+Now you can run `make` from your command line to deploy the pipeline.
 
 The parameters are
 
