@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: MIT-0
 S3_BUCKET ?= CONFIGURE_S3_BUCKET_HERE
 REGION ?= eu-west-1
+PARAMS_FILE ?= parameters.cfg
+STACK_NAME ?= automated-personalize-retraining
 
 all:
 	aws cloudformation package \
@@ -11,7 +13,7 @@ all:
 	aws cloudformation deploy \
 		--template-file packaged-template.yaml \
 		--s3-bucket $(S3_BUCKET) \
-		--stack-name automated-personalize-retraining \
+		--stack-name $(STACK_NAME) \
 		--capabilities CAPABILITY_IAM \
-		--parameter-overrides $$(cat parameters.cfg) \
+		--parameter-overrides $$(cat $(PARAMS_FILE)) \
 		--region $(REGION)
